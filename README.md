@@ -13,22 +13,22 @@ authentication. The APIs are listed below:
 
 The following user APIs are secured with Simple JWT authentication:
 
-- `POST /api/token/`: Get a new access token by providing valid phone number and password in the request body
-- `POST /api/token/refresh/`: Get a new access token by providing valid refresh token in the request body
-- `POST /api/token/verify/`: Verify the validity of an access token by providing the token in the request body
-- `POST /api/token/blacklist/`: Logout user by blacklisting the access and refresh token
-- `POST /api/register/`: Register a new user by providing required user details in the request body. Required fields are
+- `POST /api/accounts/token/`: Get a new access token by providing valid phone number and password in the request body
+- `POST /api/accounts/token/refresh/`: Get a new access token by providing valid refresh token in the request body
+- `POST /api/accounts/token/verify/`: Verify the validity of an access token by providing the token in the request body
+- `POST /api/accounts/token/blacklist/`: Logout user by blacklisting the access and refresh token
+- `POST /api/accounts/register/`: Register a new user by providing required user details in the request body. Required fields are
   phone number and password.
 
 ### Product APIs
 
-- `GET /api/products/`: Get a list of all products
-- `POST /api/products/`: Create a new product (needs authentication)
+- `GET /api/ecommerce/products/`: Get a list of all products
+- `POST /api/ecommerce/products/`: Create a new product (needs authentication)
 
 ### Category APIs
 
-- `GET /api/categories/`: Get a list of all categories
-- `POST /api/categories/`: Create a new category (needs authentication)
+- `GET /api/ecommerce/categories/`: Get a list of all categories
+- `POST /api/ecommerce/categories/`: Create a new category (needs authentication)
 
 ## TODO
 
