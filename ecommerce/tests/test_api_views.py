@@ -56,7 +56,7 @@ class CategoryViewSetTest(TestCase):
         data = {'name': 'Category 3'}
         response = self.client.post(self.url, data)
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
         self.assertEqual(models.Category.objects.count(), 2)
 
     def test_search_categories(self):
@@ -80,7 +80,7 @@ class ProductViewSetTest(APITestCase):
 
     def test_list_products(self):
         response = self.client.get(self.url)
-        expected_response = api_serializers.ProductReadSerializer([self.product1, self.product2], many=True).data
+        expected_response = api_serializers.ProductSerializer([self.product1, self.product2], many=True).data
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_response)
@@ -109,19 +109,19 @@ class ProductViewSetTest(APITestCase):
                 'image': self.image_upload}
         response = self.client.post(self.url, data)
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
         self.assertEqual(models.Product.objects.count(), 2)
 
     def test_search_products(self):
         response = self.client.get(self.url, {'search': 'Product 2'})
-        expected_response = api_serializers.ProductReadSerializer([self.product2], many=True).data
+        expected_response = api_serializers.ProductSerializer([self.product2], many=True).data
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_response)
 
     def test_filter_products_by_category(self):
         response = self.client.get(self.url, {'category': self.category1.id})
-        expected_response = api_serializers.ProductReadSerializer([self.product1, self.product2], many=True).data
+        expected_response = api_serializers.ProductSerializer([self.product1, self.product2], many=True).data
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_response)
@@ -130,21 +130,21 @@ class ProductViewSetTest(APITestCase):
         user2 = get_user_model().objects.create_user(phone_number='9121111111', password='password')
         models.Product.objects.create(name='Product 3', price=3000, stock=400, category=self.category1, owner=user2)
         response = self.client.get(self.url, {'owner': self.user.id})
-        expected_response = api_serializers.ProductReadSerializer([self.product1, self.product2], many=True).data
+        expected_response = api_serializers.ProductSerializer([self.product1, self.product2], many=True).data
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_response)
 
     def test_order_products_by_price(self):
         response = self.client.get(self.url, {'ordering': 'price'})
-        expected_response = api_serializers.ProductReadSerializer([self.product1, self.product2], many=True).data
+        expected_response = api_serializers.ProductSerializer([self.product1, self.product2], many=True).data
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_response)
 
     def test_order_products_by_name(self):
         response = self.client.get(self.url, {'ordering': 'name'})
-        expected_response = api_serializers.ProductReadSerializer([self.product1, self.product2], many=True).data
+        expected_response = api_serializers.ProductSerializer([self.product1, self.product2], many=True).data
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_response)

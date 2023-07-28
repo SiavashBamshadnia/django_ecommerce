@@ -11,6 +11,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    price = serializers.IntegerField(min_value=0)
+    stock = serializers.IntegerField(min_value=0)
     owner = UserSerializer(read_only=True)
 
     class Meta:
