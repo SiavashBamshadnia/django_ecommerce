@@ -33,4 +33,5 @@ The following user APIs are secured with Simple JWT authentication:
 ## TODO
 
 - Add UI.
-- Add other API functions for the product and category model.
+- ~~Add other API functions for the product and category model.~~
+- Add Elasticsearch
