@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from accounts.api_serializers import UserSerializer
 from ecommerce import models
 
 
@@ -9,20 +10,9 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProductReadSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField()
-    owner = serializers.StringRelatedField()
+class ProductSerializer(serializers.ModelSerializer):
+    owner = UserSerializer(read_only=True)
 
     class Meta:
         model = models.Product
         fields = '__all__'
-
-
-class ProductWriteSerializer(serializers.ModelSerializer):
-    # Price and stock must be positive
-    price = serializers.IntegerField(min_value=0)
-    stock = serializers.IntegerField(min_value=0)
-
-    class Meta:
-        model = models.Product
-        exclude = ('owner',)
