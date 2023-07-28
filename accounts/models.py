@@ -23,8 +23,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     class Sex(models.TextChoices):
-        MALE = 'F', 'Male'
-        FEMALE = 'M', 'Female'
+        MALE = 'M', 'Male'
+        FEMALE = 'F', 'Female'
 
     name = models.CharField(max_length=150, blank=True, null=True)
     sex = models.CharField(max_length=1, choices=Sex.choices, blank=True, null=True)
