@@ -3,10 +3,10 @@ name: Django Test
 on:
   push:
     branches:
-      - main
+      - main  # Change this to the main branch name of your repository
   pull_request:
     branches:
-      - main
+      - main  # Change this to the main branch name of your repository
 
 jobs:
   test:
@@ -16,6 +16,16 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
+      - name: Install MariaDB
+        run: sudo apt-get update && sudo apt-get install -y mariadb-server
+
+      - name: Set up MariaDB Environment Variables
+        run: |
+          echo "export MYSQL_HOST=localhost" >> $GITHUB_ENV
+          echo "export MYSQL_DATABASE=mydb" >> $GITHUB_ENV
+          echo "export MYSQL_USER=dbuser" >> $GITHUB_ENV
+          echo "export MYSQL_PASSWORD=dbpassword" >> $GITHUB_ENV
 
       - name: Set up Python
         uses: actions/setup-python@v2
