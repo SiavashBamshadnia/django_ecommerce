@@ -3,29 +3,32 @@ name: Django Test
 on:
   push:
     branches:
-      - main  # Change this to the main branch name of your repository
+      - main
   pull_request:
     branches:
-      - main  # Change this to the main branch name of your repository
+      - main
 
 jobs:
   test:
     name: Run Django Tests
     runs-on: ubuntu-latest
 
+    env:
+      MYSQL_HOST: localhost
+      MYSQL_DATABASE: django_ecommerce
+      MYSQL_USER: django_ecommerce
+      MYSQL_PASSWORD: django_ecommerce
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install MariaDB
-        run: sudo apt-get update && sudo apt-get install -y mariadb-server
-
-      - name: Set up MariaDB Environment Variables
+      - name: Set up test database
         run: |
-          echo "export MYSQL_HOST=localhost" >> $GITHUB_ENV
-          echo "export MYSQL_DATABASE=mydb" >> $GITHUB_ENV
-          echo "export MYSQL_USER=dbuser" >> $GITHUB_ENV
-          echo "export MYSQL_PASSWORD=dbpassword" >> $GITHUB_ENV
+          sudo apt-get update
+          sudo apt-get install -y mariadb-server
+          sudo service mariadb start
+          sudo mysql -u root -pmysql -e "CREATE USER '${MYSQL_USER}'@'${MYSQL_HOST}' IDENTIFIED BY '${MYSQL_PASSWORD}'; CREATE DATABASE ${MYSQL_DATABASE}; GRANT ALL PRIVILEGES ON test_${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'${MYSQL_HOST}'; FLUSH PRIVILEGES;"
 
       - name: Set up Python
         uses: actions/setup-python@v2
