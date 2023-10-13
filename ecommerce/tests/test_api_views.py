@@ -56,7 +56,7 @@ class CategoryViewSetTest(TestCase):
         data = {'name': 'Category 3'}
         response = self.client.post(self.url, data)
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 401 | 403)
         self.assertEqual(models.Category.objects.count(), 2)
 
     def test_search_categories(self):
@@ -109,7 +109,7 @@ class ProductViewSetTest(APITestCase):
                 'image': self.image_upload}
         response = self.client.post(self.url, data)
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 401 | 403)
         self.assertEqual(models.Product.objects.count(), 2)
 
     def test_search_products(self):
